@@ -1,37 +1,48 @@
+import { useEffect, useState } from "react";
+import { connectBTC } from "../lib/binance";
+
 export default function Home() {
+  const [btc, setBtc] = useState(0);
+
+  useEffect(() => {
+    const socket = connectBTC((data) => {
+      setBtc(data.price);
+    });
+
+    return () => socket.close();
+  }, []);
+
   return (
     <div style={styles.container}>
-      
       <h1 style={styles.title}>📊 Market Dashboard Pro</h1>
 
       <div style={styles.grid}>
 
         <div style={styles.card}>
           <h3>Bitcoin</h3>
-          <h1>$0</h1>
-          <p>Live Crypto</p>
+          <h1>${btc.toFixed(2)}</h1>
+          <p>LIVE Binance</p>
         </div>
 
         <div style={styles.card}>
           <h3>Ethereum</h3>
           <h1>$0</h1>
-          <p>Live Crypto</p>
+          <p>Coming next</p>
         </div>
 
         <div style={styles.card}>
           <h3>BBCA</h3>
           <h1>Rp 0</h1>
-          <p>Saham Indonesia</p>
+          <p>Coming next</p>
         </div>
 
         <div style={styles.card}>
           <h3>AAPL</h3>
           <h1>$0</h1>
-          <p>Saham US</p>
+          <p>Coming next</p>
         </div>
 
       </div>
-
     </div>
   );
 }
